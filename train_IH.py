@@ -11,7 +11,7 @@ from utils import load_part_of_model
 
 import os
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "00"
 
 def adjust_learning_rate(optimizer, epoch, param):
     """Sets the learning rate to the initial LR decayed by 10"""
@@ -107,6 +107,6 @@ def save_checkpoint(model, epoch, time):
     print("Checkpoint saved to {}".format(model_out_path))
 
 if __name__ == '__main__':
-    total_epochs = 600
+    total_epochs = 800
     # data_path = '/home/ty/code/pytorch-edsr/data/edsr_x4.h5'
     train(total_epochs)
