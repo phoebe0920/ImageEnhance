@@ -11,7 +11,7 @@ from utils import load_part_of_model
 
 import os
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "00"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def adjust_learning_rate(optimizer, epoch, param):
     """Sets the learning rate to the initial LR decayed by 10"""
