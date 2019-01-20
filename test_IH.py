@@ -54,7 +54,13 @@ def test():
 
     # model = SRNet().to(device)
     model = DINetwok().to(device)
+<<<<<<< HEAD
     model.load_state_dict(torch.load('model/checkpoint_2018-12-18 15:18:47/model_epoch_800.pth'))
+=======
+
+    model.load_state_dict(torch.load('model/checkpoint_2018-12-13 12:57:53/model_epoch_800.pth'))
+
+>>>>>>> b136adbf0dfa7882501eea04018cf14ec660a4a4
     model.eval()
     # model = load_part_of_model(model, 'checkpoint/model_epoch_5.pth')
     size = 200
@@ -96,8 +102,8 @@ def test():
                 input2 = input2.type(torch.cuda.FloatTensor)
                 result = model(input1, input2)
                 result = result.data.cpu().numpy()
-                # result = result * 255
-                # result = result.astype(np.uint8)
+                #result = result * 255
+                #result = result.astype(np.uint8)
                 target = target.data.cpu().numpy()
                 # input1 = input1.data.cpu().numpy()
                 # plt.subplot(1, 3, 1)
