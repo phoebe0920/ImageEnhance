@@ -127,9 +127,9 @@ class SRNet(nn.Module):
 
         return lstm_seq[len(lstm_seq) - 1]
 
-class _DIN_block2(nn.Module):
+class _IDN_block2(nn.Module):
     def __init__(self):
-        super(_DIN_block2, self).__init__()
+        super(_IDN_block2, self).__init__()
 
         self.conv1_1 = nn.Conv2d(in_channels=64, out_channels=48, kernel_size=3, stride=1, padding=1)
         self.conv1_2 = nn.Conv2d(in_channels=48, out_channels=32, kernel_size=3, stride=1, padding=1, groups=4)
@@ -202,9 +202,9 @@ class _DIN_block2(nn.Module):
 
         return output
 
-class _DIN_block1(nn.Module):
+class _IDN_block1(nn.Module):
     def __init__(self):
-        super(_DIN_block1, self).__init__()
+        super(_IDN_block1, self).__init__()
 
         self.conv1_1 = nn.Conv2d(in_channels=64, out_channels=48, kernel_size=3, stride=1, padding=1)
         self.conv1_2 = nn.Conv2d(in_channels=48, out_channels=32, kernel_size=3, stride=1, padding=1, groups=4)
@@ -215,6 +215,7 @@ class _DIN_block1(nn.Module):
         self.conv2_2 = nn.Conv2d(in_channels=64, out_channels=48, kernel_size=3, stride=1, padding=1, groups=4)
         self.conv2_3 = nn.Conv2d(in_channels=48, out_channels=80, kernel_size=3, stride=1, padding=1)
         self.con2 = ChannelWiseBlock(80, 20)
+        self.con3 = ChannelWiseBlock(16, 4)
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -235,6 +236,7 @@ class _DIN_block1(nn.Module):
         x = F.leaky_relu(self.conv1_3(x), negative_slope=0.05)
         x = self.con1(x)
         slice1 = x.narrow(1, 0, 16)
+        slice1 = self.con3(slice1)
         slice2 = x.narrow(1, 16, 48)
 
         x = F.leaky_relu(self.conv2_1(slice2), negative_slope=0.05)
@@ -313,13 +315,13 @@ class DINetwok(nn.Module):
         self.low_conv1 = nn.Conv2d(in_channels=1, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.low_conv2 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
 
-        self.low_block1 = nn.Sequential(_DIN_block2())
+        self.low_block1 = nn.Sequential(_IDN_block2())
         self.low_down1 = nn.Conv2d(in_channels=80, out_channels=64, kernel_size=1, stride=1)
 
         self.low_channel_wise = ChannelWiseBlock(64, 16)
         # self.low_spatial_wise = SpatialWiseBlock(64)
 
-        self.low_block2 = nn.Sequential(_DIN_block2())
+        self.low_block2 = nn.Sequential(_IDN_block2())
         self.low_down2 = nn.Conv2d(in_channels=80, out_channels=16, kernel_size=1, stride=1)
 
         self.low_channel_wise2 = ChannelWiseBlock(16, 4)
@@ -328,13 +330,13 @@ class DINetwok(nn.Module):
         self.high_conv1 = nn.Conv2d(in_channels=1, out_channels=64, kernel_size=3, stride=1, padding=1)
         self.high_conv2 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1, padding=1)
 
-        self.high_block1 = nn.Sequential(_DIN_block1())
+        self.high_block1 = nn.Sequential(_IDN_block1())
         self.high_down1 = nn.Conv2d(in_channels=80, out_channels=64, kernel_size=1, stride=1)
 
         self.high_channel_wise = ChannelWiseBlock(64, 16)
         # self.high_spatial_wise = SpatialWiseBlock(64)
 
-        self.high_block2 = nn.Sequential(_DIN_block1())
+        self.high_block2 = nn.Sequential(_IDN_block1())
         self.high_down2 = nn.Conv2d(in_channels=80, out_channels=16, kernel_size=1, stride=1)
 
         self.high_channel_wise2 = ChannelWiseBlock(16, 4)
@@ -424,8 +426,8 @@ class DINetwok(nn.Module):
             lstm_seq.append(output_lstm)
 
         final = fuse + lstm_seq[len(lstm_seq) - 1]
-        return final
-        #3return final, lstm_seq[len(lstm_seq) - 1]
+        #return final
+        return final, lstm_seq[len(lstm_seq) - 1]
 
 if __name__ == '__main__':
     device = torch.device('cuda')

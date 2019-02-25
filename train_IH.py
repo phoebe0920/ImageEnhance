@@ -60,7 +60,7 @@ def train(epochs):
                                  transforms.ToTensor()]))
 
     training_data_loader = torch.utils.data.DataLoader(dataset,
-                                             batch_size=12,
+                                             batch_size=10,
                                              shuffle=True,
                                              num_workers=int(2))
     time_str = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
