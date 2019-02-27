@@ -52,3 +52,17 @@ baseNet + channel-wise attention * 4 + lstm timestep(8) + DINblock2 in low, DINb
 + add channel-wise attention *4 in DINblock2 +  add a conv layer in DINblock2 + add channel-wise after slice1 in IDNblock1
 psnr: 41.86633823061395
 ssim: 0.9869205536658268
+
+
+model/checkpoint_2019-02-25 10:24:27/model_epoch_800.pth
+baseNet + channel-wise attention * 4 + lstm timestep(8) + DINblock2 in low, DINblock1 in high + add channel-wise attention *2 in DINblock1
++ add channel-wise attention *4 in DINblock2 +  add a conv layer in DINblock2 + add channel-wise after slice1 and identity_data in IDNblock1
+psnr: 41.94613385802194
+ssim: 0.9870739841817681
+
+
+model/checkpoint_2019-02-26 10:25:10/model_epoch_800.pth
+baseNet + channel-wise attention * 4 + lstm timestep(8) + DINblock2 in low, DINblock1 in high + add channel-wise attention *2 in DINblock1
++ add channel-wise attention *4 in DINblock2 +  add a conv layer in DINblock2 + add channel-wise after output in IDNblock1
+psnr: 41.849245999913265
+ssim: 0.9868880098934418
