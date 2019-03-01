@@ -24,11 +24,12 @@ def adjust_learning_rate(optimizer, epoch, param):
     for param_group in optimizer.param_groups:
         param_group['lr'] = param['running_lr']
 
+
 def train(epochs):
     device = torch.device('cuda')
     param = {}
     param['lr'] = 0.001
-    param['max_epoch'] = 60
+    param['max_epoch'] = 200
     param['total_epoch'] = epochs
     param['lr_pow'] = 0.95
     param['running_lr'] = param['lr']
@@ -42,6 +43,8 @@ def train(epochs):
 
     #crit = nn.MSELoss()
     crit = nn.L1Loss()
+    #crit = nn.BCELoss()
+
     # model = SRNet().to(device)
     model = DINetwok().to(device)
     # model.load_state_dict(torch.load('model/2018-10-26 22:11:34/50000/snap_model.pth'))
@@ -54,7 +57,7 @@ def train(epochs):
 
     dataset = EnhanceDataset(left_high_root, right_low_root, gt_root, image_names,
                              transform=transforms.Compose([
-                                 transforms.RandomCrop(170),
+                                 transforms.RandomCrop(120),
                                  transforms.RandomHorizontalFlip(),
                                  transforms.RandomVerticalFlip(),
                                  transforms.RandomRotation(),
@@ -72,12 +75,9 @@ def train(epochs):
             high = high.type(torch.cuda.FloatTensor)
             target = target.type(torch.cuda.FloatTensor)
 
-            final, lstm_branck = model(low, high)
+            final = model(low, high)
 
             loss = crit(final, target)
-            loss_lstm = crit(lstm_branck, target)
-
-            loss = 0.8 * loss + 0.2 * loss_lstm
 
             optimizer.zero_grad()
 
@@ -91,7 +91,7 @@ def train(epochs):
 
         print("Epochs={}, lr={}".format(epoch, optimizer.param_groups[0]["lr"]))
 
-        if epoch % 20 == 0:
+        if epoch % 50 == 0:
             save_checkpoint(model, epoch, time_str)
 
 
@@ -108,6 +108,8 @@ def save_checkpoint(model, epoch, time):
     print("Checkpoint saved to {}".format(model_out_path))
 
 if __name__ == '__main__':
+
     total_epochs = 800
+
     # data_path = '/home/ty/code/pytorch-edsr/data/edsr_x4.h5'
     train(total_epochs)
