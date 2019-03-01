@@ -231,14 +231,13 @@ class _IDN_block1(nn.Module):
 
     def forward(self, x):
         identity_data = x
-       # identity_data = self.con0(identity_data)
+
 
         x = F.leaky_relu(self.conv1_1(x), negative_slope=0.05)
         x = F.leaky_relu(self.conv1_2(x), negative_slope=0.05)
         x = F.leaky_relu(self.conv1_3(x), negative_slope=0.05)
         x = self.con1(x)
         slice1 = x.narrow(1, 0, 16)
-        #slice1 = self.con3(slice1)
         slice2 = x.narrow(1, 16, 48)
 
         x = F.leaky_relu(self.conv2_1(slice2), negative_slope=0.05)
@@ -247,7 +246,7 @@ class _IDN_block1(nn.Module):
         x = self.con2(x)
 
         output = torch.add(torch.cat([identity_data, slice1], dim=1), x)
-        output = self.con3(output)
+
         return output
 
 class ChannelWiseBlock(nn.Module):
@@ -343,6 +342,7 @@ class DINetwok(nn.Module):
 
         self.high_channel_wise2 = ChannelWiseBlock(16, 4)
 
+        self.fuse0 = nn.Conv2d(in_channels=16,out_channels=32,kernel_size=1,stride=1)
         self.fuse = nn.Conv2d(in_channels=32, out_channels=1, kernel_size=1, stride=1)
 
         # conv-lstm
@@ -409,7 +409,9 @@ class DINetwok(nn.Module):
 
         high = self.high_channel_wise2(high)
 
-        lstm_input = torch.cat([low, high], 1)
+        #lstm_input = torch.cat([low, high], 1)
+        lstm_input = torch.add(low, high)
+        lstm_input = self.fuse0(lstm_input)
 
         fuse = self.fuse(lstm_input)
 

@@ -17,7 +17,7 @@ from skimage.measure import compare_psnr, compare_ssim
 
 import os
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 def toTensor(picA, picB, picC):
     pics = [picA, picB, picC]
@@ -54,7 +54,7 @@ def test():
 
     # model = SRNet().to(device)
     model = DINetwok().to(device)
-    model.load_state_dict(torch.load('model/checkpoint_2019-02-26 10:25:10/model_epoch_500.pth'))
+    model.load_state_dict(torch.load('model/checkpoint_2019-02-28 15:02:54/model_epoch_800.pth'))
     model.eval()
     # model = load_part_of_model(model, 'checkpoint/model_epoch_5.pth')
     size = 200

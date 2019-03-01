@@ -11,7 +11,7 @@ from utils import load_part_of_model
 
 import os
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 
 def adjust_learning_rate(optimizer, epoch, param):
     """Sets the learning rate to the initial LR decayed by 10"""
@@ -40,6 +40,7 @@ def train(epochs):
     list_file = open(train_file)
     image_names = [line.strip() for line in list_file]
 
+    #crit = nn.MSELoss()
     crit = nn.L1Loss()
     # model = SRNet().to(device)
     model = DINetwok().to(device)
@@ -49,7 +50,7 @@ def train(epochs):
     # optimizers = create_optimizers(nets, param)
     optimizer = torch.optim.Adam(model.parameters(), lr=param['lr'])
     model.train()
-    # model = load_part_of_model(model, 'checkpoint/model_epoch_5.pth')
+    model = load_part_of_model(model, 'model/checkpoint_2018-12-18 15:18:47/model_epoch_800.pth')
 
     dataset = EnhanceDataset(left_high_root, right_low_root, gt_root, image_names,
                              transform=transforms.Compose([
