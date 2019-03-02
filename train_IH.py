@@ -53,11 +53,11 @@ def train(epochs):
     # optimizers = create_optimizers(nets, param)
     optimizer = torch.optim.Adam(model.parameters(), lr=param['lr'])
     model.train()
-    model = load_part_of_model(model, 'model/checkpoint_2018-12-18 15:18:47/model_epoch_800.pth')
+    model = load_part_of_model(model, 'model/checkpoint_2019-02-28 15:02:54/model_epoch_800.pth')
 
     dataset = EnhanceDataset(left_high_root, right_low_root, gt_root, image_names,
                              transform=transforms.Compose([
-                                 transforms.RandomCrop(120),
+                                 transforms.RandomCrop(160),
                                  transforms.RandomHorizontalFlip(),
                                  transforms.RandomVerticalFlip(),
                                  transforms.RandomRotation(),
