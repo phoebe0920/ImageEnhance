@@ -84,11 +84,21 @@ baseNet + channel-wise attention * 4 + lstm timestep(8) + DINblock2 in low, DINb
 psnr: 42.0265411723276
 ssim: 0.9871477603746219
 
-(crop:160,bz=10)
+model/checkpoint_2019-03-01 19:22:37/model_epoch_800.pth(pretrain:42.02--crop:160,bz=10)
 baseNet + channel-wise attention * 4 + lstm timestep(8) + DINblock2 in low, DINblock1 in high + add channel-wise attention *2 in DINblock1
 + add channel-wise attention *4 in DINblock2 +  add a conv layer in DINblock2 + low concate high change to add and add a convlayer in the end of IDNnetwok(no loss_lstm)
 psnr: 42.06818158345074
 ssim: 0.9872282175531423
+
+
+model/checkpoint_2019-03-02 20:55:17/model_epoch_800.pth
+baseNet +pretrain:42.06--crop:150,bz=10 add a convlayer after fuse
+psnr: 42.07777537514567
+ssim: 0.9872540653597845
+
+
+
+
 
 
 

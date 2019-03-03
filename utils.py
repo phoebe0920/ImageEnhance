@@ -4,6 +4,7 @@ import numpy as np
 def load_part_of_model(new_model, src_model_path):
     src_model = torch.load(src_model_path)
     m_dict = new_model.state_dict()
+
     for k in src_model.keys():
         print (k)
 

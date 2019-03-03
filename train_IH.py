@@ -11,7 +11,7 @@ from utils import load_part_of_model
 
 import os
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def adjust_learning_rate(optimizer, epoch, param):
     """Sets the learning rate to the initial LR decayed by 10"""
@@ -53,11 +53,23 @@ def train(epochs):
     # optimizers = create_optimizers(nets, param)
     optimizer = torch.optim.Adam(model.parameters(), lr=param['lr'])
     model.train()
-    model = load_part_of_model(model, 'model/checkpoint_2019-02-28 15:02:54/model_epoch_800.pth')
+    #model = load_part_of_model(model, 'model/checkpoint_2019-03-01 19:22:37/model_epoch_800.pth')
+
+
+    pretrained_dict = torch.load('model/checkpoint_2019-03-01 19:22:37/model_epoch_800.pth')
+   # pretrained_dict = model.state_dict()
+    model_dict = model.state_dict()
+
+    # 1. filter out unnecessary keys
+    pretrained_dict = {k: v for k, v in pretrained_dict.items() if k in model_dict}
+    # 2. overwrite entries in the existing state dict
+    model_dict.update(pretrained_dict)
+    # 3. load the new state dict
+    model.load_state_dict(model_dict)
 
     dataset = EnhanceDataset(left_high_root, right_low_root, gt_root, image_names,
                              transform=transforms.Compose([
-                                 transforms.RandomCrop(160),
+                                 transforms.RandomCrop(150),
                                  transforms.RandomHorizontalFlip(),
                                  transforms.RandomVerticalFlip(),
                                  transforms.RandomRotation(),
@@ -75,9 +87,12 @@ def train(epochs):
             high = high.type(torch.cuda.FloatTensor)
             target = target.type(torch.cuda.FloatTensor)
 
-            final = model(low, high)
+          #  final = model(low, high)
+            final, lstm_branck = model(low, high)
 
             loss = crit(final, target)
+            loss_lstm = crit(lstm_branck, target)
+            loss = 0.8 * loss + 0.2 * loss_lstm
 
             optimizer.zero_grad()
 
