@@ -98,6 +98,11 @@ ssim: 0.9872540653597845
 
 
 
+ model/checkpoint_2019-03-03 13:12:37/model_epoch_800.pth
+baseNet +pretrain:42.07--crop:150,bz=10 add two convlayer after fuse
+psnr: 42.0879152722173
+ssim: 0.9872767582038543
+
 
 
 

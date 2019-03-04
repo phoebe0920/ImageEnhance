@@ -344,7 +344,8 @@ class DINetwok(nn.Module):
 
         self.fuse0 = nn.Conv2d(in_channels=16,out_channels=32,kernel_size=1,stride=1)
         self.fuse1 = nn.Conv2d(in_channels=32, out_channels=32, kernel_size=1, stride=1)
-        self.fuse2 = nn.Conv2d(in_channels=32, out_channels=1, kernel_size=1, stride=1)
+        self.fuse3 = nn.Conv2d(in_channels=32, out_channels=16, kernel_size=1, stride=1)
+        self.fuse4 = nn.Conv2d(in_channels=16, out_channels=1, kernel_size=1, stride=1)
 
         # conv-lstm
         self.conv_i = nn.Sequential(
@@ -415,7 +416,8 @@ class DINetwok(nn.Module):
         lstm_input = self.fuse0(lstm_input)
 
         fuse = self.fuse1(lstm_input)
-        fuse = self.fuse2(fuse)
+        fuse = self.fuse3(fuse)
+        fuse = self.fuse4(fuse)
 
         h = torch.zeros(low.size(0), 32, low.size(2), low.size(3)).type(torch.cuda.FloatTensor)
         c = torch.zeros(low.size(0), 32, low.size(2), low.size(3)).type(torch.cuda.FloatTensor)

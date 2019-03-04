@@ -56,7 +56,7 @@ def train(epochs):
     #model = load_part_of_model(model, 'model/checkpoint_2019-03-01 19:22:37/model_epoch_800.pth')
 
 
-    pretrained_dict = torch.load('model/checkpoint_2019-03-01 19:22:37/model_epoch_800.pth')
+    pretrained_dict = torch.load('model/checkpoint_2019-03-02 20:55:17/model_epoch_800.pth')
    # pretrained_dict = model.state_dict()
     model_dict = model.state_dict()
 
