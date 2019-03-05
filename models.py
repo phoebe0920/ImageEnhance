@@ -347,6 +347,7 @@ class DINetwok(nn.Module):
         self.fuse3 = nn.Conv2d(in_channels=32, out_channels=16, kernel_size=1, stride=1)
         self.fuse4 = nn.Conv2d(in_channels=16, out_channels=1, kernel_size=1, stride=1)
 
+
         # conv-lstm
         self.conv_i = nn.Sequential(
             nn.Conv2d(in_channels=32 + 32, out_channels=32, kernel_size=3, stride=1, padding=1),
@@ -434,6 +435,7 @@ class DINetwok(nn.Module):
             lstm_seq.append(output_lstm)
 
         final = fuse + lstm_seq[len(lstm_seq) - 1]
+
         return final
         #return final, lstm_seq[len(lstm_seq) - 1]
 

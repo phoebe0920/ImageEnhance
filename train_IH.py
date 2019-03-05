@@ -11,7 +11,7 @@ from utils import load_part_of_model
 
 import os
 os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 
 def adjust_learning_rate(optimizer, epoch, param):
     """Sets the learning rate to the initial LR decayed by 10"""
@@ -28,10 +28,11 @@ def adjust_learning_rate(optimizer, epoch, param):
 def train(epochs):
     device = torch.device('cuda')
     param = {}
-    param['lr'] = 0.001
+    param['lr'] = 0.0001
     param['max_epoch'] = 200
     param['total_epoch'] = epochs
     param['lr_pow'] = 0.95
+    #param['lr_pow'] = 0.90
     param['running_lr'] = param['lr']
 
     train_file = 'Dataset05/train_file.txt'
@@ -41,8 +42,8 @@ def train(epochs):
     list_file = open(train_file)
     image_names = [line.strip() for line in list_file]
 
-    #crit = nn.MSELoss()
-    crit = nn.L1Loss()
+    crit = nn.MSELoss()
+    #crit = nn.L1Loss()
     #crit = nn.BCELoss()
 
     # model = SRNet().to(device)
@@ -56,8 +57,7 @@ def train(epochs):
     #model = load_part_of_model(model, 'model/checkpoint_2019-03-01 19:22:37/model_epoch_800.pth')
 
 
-    pretrained_dict = torch.load('model/checkpoint_2019-03-02 20:55:17/model_epoch_800.pth')
-   # pretrained_dict = model.state_dict()
+    pretrained_dict = torch.load('model/checkpoint_2019-03-03 13:12:37/model_epoch_800.pth')
     model_dict = model.state_dict()
 
     # 1. filter out unnecessary keys
@@ -69,7 +69,7 @@ def train(epochs):
 
     dataset = EnhanceDataset(left_high_root, right_low_root, gt_root, image_names,
                              transform=transforms.Compose([
-                                 transforms.RandomCrop(150),
+                                 transforms.RandomCrop(160),
                                  transforms.RandomHorizontalFlip(),
                                  transforms.RandomVerticalFlip(),
                                  transforms.RandomRotation(),

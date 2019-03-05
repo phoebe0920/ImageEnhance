@@ -35,20 +35,20 @@ baseNet + channel-wise attention * 4 + lstm timestep(8) + DINblock2 in low, DINb
 psnr: 41.91081327874605
 ssim: 0.986992942990655
 
-<<<<<<< HEAD
+
 model/checkpoint_2018-12-13 12:57:53/model_epoch_800.pth
 baseNet + channel-wise attention * 4 + lstm timestep(8) + DINblock2 in low, DINblock1 in high + add channel-wise attention *2 in DINblock1
 + add channel-wise attention *4 in DINblock2
 psnr: 41.97507950080767
 ssim: 0.9870522279680802
 
-<<<<<<< HEAD
+
 model/checkpoint_2018-12-18 15:18:47/model_epoch_800.pth
 baseNet + channel-wise attention * 4 + lstm timestep(8) + DINblock2 in low, DINblock1 in high + add channel-wise attention *2 in DINblock1
 + add channel-wise attention *4 in DINblock2 +  add a conv layer in DINblock2
 psnr: 41.98161199232305
 ssim: 0.9870782607970433
-<<<<<<< HEAD
+
 
 
 model/checkpoint_2019-02-24 12:47:58/model_epoch_800.pth
@@ -97,11 +97,16 @@ psnr: 42.07777537514567
 ssim: 0.9872540653597845
 
 
-
  model/checkpoint_2019-03-03 13:12:37/model_epoch_800.pth
 baseNet +pretrain:42.07--crop:150,bz=10 add two convlayer after fuse
 psnr: 42.0879152722173
 ssim: 0.9872767582038543
+
+model/checkpoint_2019-03-04 11:31:51/model_epoch_800.pth
+baseNet +pretrain:42.08--crop:160,bz=10,loss=MSE
+psnr: 42.115368242051815
+ssim: 0.9873327610348351
+
 
 
 
